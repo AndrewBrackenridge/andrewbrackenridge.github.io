@@ -420,13 +420,11 @@
           </p>
 
           <h2>
-            Python Project
+            Lab 2 - Kirby Game
           </h2>
 
           <p>
-            Placeholder for a Python project. Add a description of what
-            the program does, what libraries were used, and what you
-            learned while building it.
+            Tiny Kirby game where one collects coins to move faster and score higher.
           </p>
 
           <div class="project-actions">
@@ -594,7 +592,7 @@
 
         <div class="code-box">
 
-<pre><code># Replace this code with your actual project code.
+<pre><code>
 
 from random import randint
 
@@ -605,20 +603,18 @@ score = 0
 game_over = False
 time_left = 20
 
-player = Actor("player")
-player.pos = 100, 100
+kirby = Actor("kirby")
+kirby.pos = 100, 100
 
 coin = Actor("coin")
 coin.pos = 200, 200
 
 
 def draw():
-
     screen.fill("green")
 
     if not game_over:
-
-        player.draw()
+        kirby.draw()
         coin.draw()
 
         screen.draw.text(
@@ -634,7 +630,6 @@ def draw():
         )
 
     else:
-
         screen.fill("pink")
 
         screen.draw.text(
@@ -653,71 +648,78 @@ def draw():
 
 
 def place_coin():
-
     coin.x = randint(20, WIDTH - 20)
     coin.y = randint(20, HEIGHT - 20)
 
 
 def countdown():
-
     global time_left
     global game_over
 
-    if time_left > 0:
-
+    if not game_over:
         time_left -= 1
 
-    else:
+        if time_left <= 0:
+            time_left = 0
+            game_over = True
 
-        game_over = True
+
+def restart_game():
+    global score
+    global game_over
+    global time_left
+
+    score = 0
+    game_over = False
+    time_left = 20
+
+    kirby.pos = 100, 100
+    place_coin()
 
 
 def update():
-
     global score
 
     if game_over:
+        if keyboard.r:
+            restart_game()
+
         return
 
 
+    # Kirby gets faster as score increases
+    speed = 2 + (score // 5)
+
+
+    # Separate if statements allow diagonal movement
     if keyboard.left:
-        player.x -= 3
+        kirby.x -= speed
 
     if keyboard.right:
-        player.x += 3
+        kirby.x += speed
 
     if keyboard.up:
-        player.y -= 3
+        kirby.y -= speed
 
     if keyboard.down:
-        player.y += 3
+        kirby.y += speed
 
 
-    # Keep the player inside the game window.
-
-    player.x = max(
-        20,
-        min(WIDTH - 20, player.x)
-    )
-
-    player.y = max(
-        20,
-        min(HEIGHT - 20, player.y)
-    )
+    # Keep Kirby inside the screen
+    kirby.x = max(20, min(WIDTH - 20, kirby.x))
+    kirby.y = max(20, min(HEIGHT - 20, kirby.y))
 
 
-    # Check for collision with the coin.
-
-    if player.colliderect(coin):
-
+    # Coin collision
+    if kirby.colliderect(coin):
         score += 1
+
+        sounds.coin.play()
 
         place_coin()
 
 
-clock.schedule_interval(
-    countdown,
-    1.0
+clock.schedule_interval(countdown, 1.0)
 )</code></pre>
 
         </div>
