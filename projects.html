@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Engineering and programming projects by Andrew Brackenridge.">
+
+  <meta
+    name="description"
+    content="Programming and engineering projects by Andrew Brackenridge."
+  >
 
   <title>Projects | Andrew Brackenridge</title>
 
@@ -11,6 +15,7 @@
     :root {
       --background: #07111f;
       --surface: rgba(14, 29, 49, 0.82);
+      --surface-dark: #020817;
       --text: #f4f7fb;
       --muted: #a9b7ca;
       --accent: #5eead4;
@@ -23,9 +28,14 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
       margin: 0;
+
       color: var(--text);
 
       background:
@@ -53,6 +63,10 @@
       line-height: 1.65;
     }
 
+    a {
+      color: inherit;
+    }
+
     .site-header {
       width: min(1100px, calc(100% - 2rem));
       margin: 0 auto;
@@ -61,6 +75,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
     }
 
     .brand {
@@ -72,27 +87,37 @@
       text-transform: uppercase;
     }
 
-    .home-link {
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-links a {
       color: var(--muted);
       font-size: 0.92rem;
       font-weight: 650;
       text-decoration: none;
-
       transition: color 160ms ease;
     }
 
-    .home-link:hover {
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
       color: var(--accent);
     }
 
     main {
       width: min(1100px, calc(100% - 2rem));
       margin: 0 auto;
-      padding: 4rem 0 6rem;
+      padding: clamp(3rem, 8vw, 6rem) 0 6rem;
+    }
+
+    .hero {
+      margin-bottom: 3rem;
     }
 
     .eyebrow {
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.65rem;
       color: var(--accent);
       font-size: 0.8rem;
       font-weight: 800;
@@ -105,26 +130,32 @@
       font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 850;
       letter-spacing: -0.055em;
-      line-height: 1;
+      line-height: 0.95;
     }
 
     .intro {
-      max-width: 650px;
-      margin: 1.5rem 0 3rem;
+      max-width: 700px;
+      margin: 1.5rem 0 0;
       color: var(--muted);
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+    }
+
+    .section-title {
+      margin: 0 0 1.5rem;
+      font-size: 1.7rem;
     }
 
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.25rem;
+      margin-bottom: 4rem;
     }
 
     .project-card {
       display: flex;
       flex-direction: column;
-      min-height: 280px;
+      min-height: 260px;
       padding: 1.6rem;
 
       border: 1px solid var(--border);
@@ -132,7 +163,6 @@
 
       background: var(--surface);
       box-shadow: var(--shadow);
-
       backdrop-filter: blur(16px);
 
       transition:
@@ -146,9 +176,9 @@
     }
 
     .project-type {
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.55rem;
       color: var(--accent);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -156,9 +186,553 @@
 
     .project-card h2 {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
     }
 
     .project-card p {
       flex-grow: 1;
-      margin
+      margin: 0.8rem 0 1.4rem;
+      color: var(--muted);
+    }
+
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 2.7rem;
+      padding: 0.6rem 1rem;
+
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+
+      color: var(--text);
+
+      font-size: 0.88rem;
+      font-weight: 750;
+      text-decoration: none;
+
+      transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+    }
+
+    .button.primary {
+      border-color: var(--accent);
+      color: #05201d;
+      background: var(--accent);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      border-color: var(--accent-dark);
+    }
+
+    .button.primary:hover,
+    .button.primary:focus-visible {
+      background: var(--accent-dark);
+    }
+
+    .coming-soon {
+      display: inline-block;
+      width: fit-content;
+
+      padding: 0.35rem 0.7rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.035);
+
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .code-section {
+      margin-top: 1rem;
+    }
+
+    .code-card {
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      padding: 0.9rem 1.1rem;
+
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .code-title {
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .code-language {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .code-box {
+      max-height: 560px;
+      overflow: auto;
+      background: var(--surface-dark);
+    }
+
+    pre {
+      margin: 0;
+      padding: 1.4rem;
+      min-width: max-content;
+    }
+
+    code {
+      color: #dbeafe;
+      font-family:
+        "Courier New",
+        Courier,
+        monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .site-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      main {
+        padding-top: 2.5rem;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .code-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .button,
+      .project-card,
+      .nav-links a {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+
+    <a class="brand" href="index.html">
+      Andrew Brackenridge
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#code">Code</a>
+    </nav>
+
+  </header>
+
+
+  <main>
+
+    <section class="hero">
+
+      <p class="eyebrow">
+        Portfolio
+      </p>
+
+      <h1>
+        Projects
+      </h1>
+
+      <p class="intro">
+        A collection of programming, circuit design, and engineering
+        projects. This page will continue to grow as I complete new
+        projects and add source code, documentation, and project details.
+      </p>
+
+    </section>
+
+
+    <section id="projects">
+
+      <h2 class="section-title">
+        Project Library
+      </h2>
+
+      <div class="projects">
+
+
+        <!-- PROJECT 1 -->
+
+        <article class="project-card">
+
+          <p class="project-type">
+            Python
+          </p>
+
+          <h2>
+            Python Project
+          </h2>
+
+          <p>
+            Placeholder for a Python project. Add a description of what
+            the program does, what libraries were used, and what you
+            learned while building it.
+          </p>
+
+          <div class="project-actions">
+
+            <a class="button primary" href="#code">
+              View Code
+            </a>
+
+          </div>
+
+        </article>
+
+
+        <!-- PROJECT 2 -->
+
+        <article class="project-card">
+
+          <p class="project-type">
+            C++
+          </p>
+
+          <h2>
+            C++ Project
+          </h2>
+
+          <p>
+            Placeholder for a C++ project involving classes, arrays,
+            vectors, pointers, algorithms, recursion, or other
+            programming concepts.
+          </p>
+
+          <span class="coming-soon">
+            Coming Soon
+          </span>
+
+        </article>
+
+
+        <!-- PROJECT 3 -->
+
+        <article class="project-card">
+
+          <p class="project-type">
+            Circuit Design
+          </p>
+
+          <h2>
+            Circuit Project
+          </h2>
+
+          <p>
+            Placeholder for a circuit project. This can include
+            schematics, resistor and capacitor calculations,
+            simulation results, photos, and testing information.
+          </p>
+
+          <span class="coming-soon">
+            Coming Soon
+          </span>
+
+        </article>
+
+
+        <!-- PROJECT 4 -->
+
+        <article class="project-card">
+
+          <p class="project-type">
+            Engineering Analysis
+          </p>
+
+          <h2>
+            Engineering Project
+          </h2>
+
+          <p>
+            Placeholder for a mechanics, statics, electrical,
+            mathematical, or engineering design project with supporting
+            calculations and documentation.
+          </p>
+
+          <span class="coming-soon">
+            Coming Soon
+          </span>
+
+        </article>
+
+
+        <!-- PROJECT 5 -->
+
+        <article class="project-card">
+
+          <p class="project-type">
+            Hardware / Software
+          </p>
+
+          <h2>
+            Embedded Project
+          </h2>
+
+          <p>
+            Placeholder for a future project combining programming with
+            sensors, electronics, microcontrollers, motors, or other
+            hardware.
+          </p>
+
+          <span class="coming-soon">
+            Coming Soon
+          </span>
+
+        </article>
+
+
+        <!-- PROJECT 6 -->
+
+        <article class="project-card">
+
+          <p class="project-type">
+            Future Work
+          </p>
+
+          <h2>
+            Additional Project
+          </h2>
+
+          <p>
+            Reserved space for another personal, academic, programming,
+            electrical, or engineering project.
+          </p>
+
+          <span class="coming-soon">
+            Coming Soon
+          </span>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- LARGE CODE DISPLAY -->
+
+    <section class="code-section" id="code">
+
+      <h2 class="section-title">
+        Featured Code
+      </h2>
+
+      <div class="code-card">
+
+        <div class="code-header">
+
+          <p class="code-title">
+            project.py
+          </p>
+
+          <span class="code-language">
+            Python
+          </span>
+
+        </div>
+
+
+        <div class="code-box">
+
+<pre><code># Replace this code with your actual project code.
+
+from random import randint
+
+WIDTH = 400
+HEIGHT = 400
+
+score = 0
+game_over = False
+time_left = 20
+
+player = Actor("player")
+player.pos = 100, 100
+
+coin = Actor("coin")
+coin.pos = 200, 200
+
+
+def draw():
+
+    screen.fill("green")
+
+    if not game_over:
+
+        player.draw()
+        coin.draw()
+
+        screen.draw.text(
+            "Score: " + str(score),
+            color="black",
+            topleft=(10, 10)
+        )
+
+        screen.draw.text(
+            "Time: " + str(time_left),
+            color="black",
+            topright=(390, 10)
+        )
+
+    else:
+
+        screen.fill("pink")
+
+        screen.draw.text(
+            "Final Score: " + str(score),
+            center=(200, 160),
+            fontsize=45,
+            color="black"
+        )
+
+        screen.draw.text(
+            "Press R to Restart",
+            center=(200, 230),
+            fontsize=30,
+            color="black"
+        )
+
+
+def place_coin():
+
+    coin.x = randint(20, WIDTH - 20)
+    coin.y = randint(20, HEIGHT - 20)
+
+
+def countdown():
+
+    global time_left
+    global game_over
+
+    if time_left > 0:
+
+        time_left -= 1
+
+    else:
+
+        game_over = True
+
+
+def update():
+
+    global score
+
+    if game_over:
+        return
+
+
+    if keyboard.left:
+        player.x -= 3
+
+    if keyboard.right:
+        player.x += 3
+
+    if keyboard.up:
+        player.y -= 3
+
+    if keyboard.down:
+        player.y += 3
+
+
+    # Keep the player inside the game window.
+
+    player.x = max(
+        20,
+        min(WIDTH - 20, player.x)
+    )
+
+    player.y = max(
+        20,
+        min(HEIGHT - 20, player.y)
+    )
+
+
+    # Check for collision with the coin.
+
+    if player.colliderect(coin):
+
+        score += 1
+
+        place_coin()
+
+
+clock.schedule_interval(
+    countdown,
+    1.0
+)</code></pre>
+
+        </div>
+
+      </div>
+
+      <p class="footer-note">
+        The code box automatically scrolls vertically and horizontally,
+        so you can paste much larger programs here without stretching
+        the entire page.
+      </p>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
